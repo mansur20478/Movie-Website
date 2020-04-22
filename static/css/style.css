@@ -1,0 +1,25 @@
+
+
+.genre_show table{
+    margin-left:auto;
+    margin-right:auto;
+    width: 1200px;
+    align: center;
+    table-layout: fixed;
+    background: #181818;
+    border-collapse:collapse;
+    color:#707070;
+    font-family: sans-serif;
+}
+.genre_show td{
+    border: 4px solid #111;
+}
+.genre_show a{
+    outline: none;
+    text-decoration:none;
+    color:inherit;
+}
+
+.content {
+    background: #0;
+}
