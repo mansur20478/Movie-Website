@@ -12,6 +12,15 @@
     </head>
     <body>
         <main role="main" class="container">
+            <div class="search_bar">
+                <p>
+                    <img src="{{url_for('static', filename='img/logo.png')}}">
+                    <form action="" method="post" onclick="">
+                        <input type="text" name="search_bar_value" value="Название фильма..." onfocus="this.value=''">
+                        <input type="submit" name="search_bar_submit" value="Поиск">
+                    </form>
+                </p>
+            </div>
             <div class="genre_show">
                 <table>
                     <tr>
