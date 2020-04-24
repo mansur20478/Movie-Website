@@ -1,7 +1,3 @@
-body {
-    background: url(static/img/fon.jpg);
-}
-
 .genre_show table{
     margin-right: auto;
     display: grid;
@@ -23,6 +19,10 @@ body {
     outline: none;
     text-decoration:none;
     color:inherit;
+}
+
+main {
+    background-color: #181818;
 }
 
 .content {
