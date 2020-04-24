@@ -2,11 +2,13 @@
     background-color: red;
 }
 
-.global {
-    background-color: blue;
+.infofilm table{
+    background-color: green;
 }
 
 .infofilm {
+    display: flex;
+    flex-direction: row;
     background-color: blueviolet;
 }
 

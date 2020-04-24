@@ -1,9 +1,8 @@
 body {
-    background-color: black;
+    background: url(static/img/fon.jpg);
 }
 
 .genre_show table{
-    margin-left: auto;
     margin-right: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, 25%);
@@ -14,6 +13,7 @@ body {
     border-collapse:collapse;
     color: #707070;
     font-family: sans-serif;
+    margin-left: 150px;
 }
 .genre_show td{
     border: 4px solid #111;
