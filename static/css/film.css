@@ -7,6 +7,8 @@
 }
 
 .infofilm {
+    display: flex;
+    flex-direction: row;
     background-color: blueviolet;
 }
 

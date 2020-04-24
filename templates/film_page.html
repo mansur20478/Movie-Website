@@ -2,12 +2,37 @@
 
 {% block content %}
     <div class="infofilm">
-        <img src="static/img/mars.jpg">
-        <label>Фильм повествует о неком риутале Ваканды, который якобы отправляет тебя на марс</label>
+        <img src="{{film['photo_url']}}">
+        <table>
+            <tr>
+                <td>Название</td>
+                <td>{{film['title']}}</td>
+            </tr>
+            <tr>
+                <td>Год</td>
+                <td>{{film['year']}}</td>
+            </tr>
+            <tr>
+                <td>Страна</td>
+                <td>{{film['country']}}</td>
+            </tr>
+            <tr>
+                <td>Жанр</td>
+                <td>{{film['genre']}}</td>
+            </tr>
+            <tr>
+                <td>Время</td>
+                <td>{{film['duration']}}</td>
+            </tr>
+        </table>
     </div>
-    <div class="Rating">Оценка из белого дома Нур-Султана 10 негров из 10</div>
+    <div class="description">
+        <label>О фильме</label>
+        <label>{{film['description']}}</label>
+    </div>
+    <div class="Rating">Рейтинг по версии KinoPoisk: {{film['score']}} из 10</div>
     <div class="film">
-        <video src="static/video/dance.mp4" controls width="500" height="400"></video>
+        <video src="{{film['film_url']}}" controls width="500" height="400"></video>
     </div>
     <h3 class="comments">Коментарии:</h3>
     <textarea class="comments"></textarea>
