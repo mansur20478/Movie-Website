@@ -2,41 +2,43 @@
 
     {% block content %}
         <div class="infofilm">
-            <img src="{{film['photo_url']}}">
+            <img src="film['photo_url']">
             <table>
                 <tr>
-                    <td><h5>Название</h5></td>
-                    <td><h5>Флекс</h5></td>
+                    <td class="filmsets"><h5>Название</h5></td>
+                    <td class="filmputs"><h5>{{film['title']}}</h5></td>
                 </tr>
                 <tr>
-                    <td><h5>Премьера</h5></td>
-                    <td><h5>2020</h5></td>
+                    <td class="filmsets"><h5>Премьера</h5></td>
+                    <td class="filmputs"><h5>{{film['year']}}</h5></td>
                 </tr>
                 <tr>
-                    <td><h5>Страна</h5></td>
-                    <td><h5>Африка</h5></td>
+                    <td class="filmsets"><h5>Страна</h5></td>
+                    <td class="filmputs"><h5>{{film['country']}}</h5></td>
                 </tr>
                 <tr>
-                    <td><h5>Жанр</h5></td>
-                    <td><h5>Флекс</h5></td>
+                    <td class="filmsets"><h5>Жанр</h5></td>
+                    <td class="filmputs"><h5>{{film['genre']}}</h5></td>
                 </tr>
                 <tr>
-                    <td><h5>Время</h5></td>
-                    <td><h5>6 мин</h5></td>
+                    <td class="filmsets"><h5>Время</h5></td>
+                    <td class="filmputs"><h5>{{film['duration']}}</h5></td>
+                </tr>
+                <tr>
+                    <td class="filmsets"><h5>Ограничение по возрасту</h5></td>
+                    <td class="filmputs"><h5>{{film['year_war']}}</h5></td>
                 </tr>
             </table>
-        </div>
-        <div>
-            <label>Про фильм</label>
-            <h6>Фильм про легенду ньюйорка который жил в дома</h6>
+            <div>
+                <h6>{{film['description']}}</h6>
+            </div>
         </div>
         <div class="Rating">
             <h5>Оценка кинокритиков :</h5>
-            <h3>9.9 из 10</h3>
+            <h3>{{film['score']}} из 10</h3>
         </div>
         <div class="film">
-            <iframe src="https://voidboost.net/embed/342" allow="autoplay" width="100%" height="360" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" oallowfullscreen="" msallowfullscreen="">
-            </iframe>
+            <video src="{{film['film_url']}}" controls width="500" height="400"></video>
         </div>
         <h3 class="comments">Коментарии:</h3>
         <textarea class="comments"></textarea>

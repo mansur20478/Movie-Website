@@ -54,6 +54,7 @@ def film_page(film_id):
         'duration': 'duration',
         'description': 'description',
         'score': 10,
+        'year_war': 16,
         'film_url': 'https://stonehenge.load.hdrezka-ag.net/tvseries/f455776e70b462a514403e5dae056fc894ca5c92/a2b31d7e35a4d1a4bb024721e145d494:2020042511/240.mp4'
     }
     return render_template("film_page.html", film=film_info)
