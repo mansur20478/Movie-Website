@@ -1,21 +1,21 @@
 .film {
-    background-color: red;
+    color: red;
 }
 
-.global {
-    background-color: blue;
+.infofilm table{
+    color: #707070;
 }
 
 .infofilm {
     display: flex;
     flex-direction: row;
-    background-color: blueviolet;
+    color: #707070;
 }
 
 .Rating {
-    background-color: lawngreen;
+    color: #707070;
 }
 
 .comments {
-    background-color: cyan;
+    color: #707070;
 }

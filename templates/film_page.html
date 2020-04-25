@@ -1,44 +1,42 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <div class="infofilm">
-        <img src="{{film['photo_url']}}">
-        <table>
-            <tr>
-                <td>Название</td>
-                <td>{{film['title']}}</td>
-            </tr>
-            <tr>
-                <td>Год</td>
-                <td>{{film['year']}}</td>
-            </tr>
-            <tr>
-                <td>Страна</td>
-                <td>{{film['country']}}</td>
-            </tr>
-            <tr>
-                <td>Жанр</td>
-                <td>{{film['genre']}}</td>
-            </tr>
-            <tr>
-                <td>Время</td>
-                <td>{{film['duration']}}</td>
-            </tr>
-            <tr>
-                <td>Возрастные ограничения</td>
-                <td>{{film['age']}}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="description">
-        <label>О фильме</label>
-        <label>{{film['description']}}</label>
-    </div>
-    <div class="Rating">Рейтинг по версии KinoPoisk: {{film['score']}} из 10</div>
-    <div class="film">
-        <video src="{{film['film_url']}}" controls width="500" height="400"></video>
-    </div>
-    <h3 class="comments">Коментарии:</h3>
-    <textarea class="comments"></textarea>
-    <h5 class="comments">Отправить</h5>
-{% endblock %}
+    {% block content %}
+        <div class="infofilm">
+            <img src="static/img/mars.jpg">
+            <table>
+                <tr>
+                    <td><h5>Название</h5></td>
+                    <td><h5>Флекс</h5></td>
+                </tr>
+                <tr>
+                    <td><h5>Премьера</h5></td>
+                    <td><h5>2020</h5></td>
+                </tr>
+                <tr>
+                    <td><h5>Страна</h5></td>
+                    <td><h5>Африка</h5></td>
+                </tr>
+                <tr>
+                    <td><h5>Жанр</h5></td>
+                    <td><h5>Флекс</h5></td>
+                </tr>
+                <tr>
+                    <td><h5>Время</h5></td>
+                    <td><h5>6 мин</h5></td>
+                </tr>
+            </table>
+            <div>
+                <h6>Фильм про легенду ньюйорка который жил в дома</h6>
+            </div>
+        </div>
+        <div class="Rating">
+            <h5>Оценка кинокритиков :</h5>
+            <h3>9.9 из 10</h3>
+        </div>
+        <div class="film">
+            <video src="static/video/dance.mp4" controls width="500" height="400"></video>
+        </div>
+        <h3 class="comments">Коментарии:</h3>
+        <textarea class="comments"></textarea>
+        <h5 class="comments">Отправить</h5>
+    {% endblock %}
