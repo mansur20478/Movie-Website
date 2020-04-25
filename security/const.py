@@ -1,1 +1,2 @@
 SECRET_KEY = "security_key"
+TOKEN = "IMPOSSIBLE_TO_HACK_TOKEN"

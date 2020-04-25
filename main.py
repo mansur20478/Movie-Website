@@ -1,7 +1,12 @@
-from security.const import SECRET_KEY
-from forms.forms import *
+import json
 
+from security.const import SECRET_KEY, TOKEN
+from forms.forms import *
 from data import db_session
+import films_resource
+
+import requests
+from flask_restful import Api
 from flask_login import LoginManager
 from flask import Flask, render_template
 from wtforms.fields.html5 import EmailField
@@ -11,6 +16,9 @@ from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
+api = Api(app)
+api.add_resource(films_resource.FilmsListResource, '/api/films/<token>')
+api.add_resource(films_resource.FilmsResource, '/api/films/<token>/<int:films_id>')
 # login_manager = LoginManager()
 # login_manager.init_app(app)
 
@@ -31,10 +39,10 @@ def register():
     form = RegisterForm()
 
 
-@app.route("/film_page")
-def film_page():
+@app.route("/film_page/<int:film_id>")
+def film_page(film_id):
     film_info = {
-        'photo_url': 'https://gidonline.io/img/9b85f7218_200x300.jpg',
+        'photo_url': 'https://gidonline.io/img/7e6c04f80_200x300.jpg',
         'title': 'title',
         'year': 'year',
         'country': 'country',
@@ -47,5 +55,30 @@ def film_page():
     return render_template("film_page.html", film=film_info)
 
 
+@app.route("/add_film", methods=['GET', 'POST'])
+def add_film():
+    form = AddFilmForm()
+    if form.validate_on_submit():
+        params = {
+            'title': form.title.data,
+            'year': form.year.data,
+            'country': form.country.data,
+            'genre': form.genre.data,
+            'age': form.age.data,
+            'description': form.description.data,
+            'show': form.show.data,
+            'film_url': form.film_url.data,
+            'photo_url': form.photo_url.data,
+            'score': form.score.data
+        }
+        info = json.loads(requests.post("http://localhost:5000/api/films/" + TOKEN, json=params).content)
+        message = ""
+        for key in info:
+            message += str(info[key]) + "\n"
+        return render_template("add_film.html", form=form, message=message)
+    return render_template("add_film.html", form=form)
+
+
 if __name__ == '__main__':
+    db_session.global_init("db/data.sqlite")
     app.run()
