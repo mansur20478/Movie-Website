@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <div class="add_film">
+            <p>
+                {{form.title.label}}<br>
+                {{form.title(class="form-control")}}<br>
+                {% for error in form.title.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.year.label}}<br>
+                {{form.year(class="form-control")}}<br>
+                {% for error in form.year.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.country.label}}<br>
+                {{form.country(class="form-control")}}<br>
+                {% for error in form.country.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.genre.label}}<br>
+                {{form.genre(class="form-control")}}<br>
+                {% for error in form.genre.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.duration.label}}<br>
+                {{form.duration(class="form-control")}}<br>
+                {% for error in form.duration.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.age.label}}<br>
+                {{form.age(class="form-control")}}<br>
+                {% for error in form.age.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.description.label}}<br>
+                {{form.description(class="form-control")}}<br>
+                {% for error in form.description.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.film_url.label}}<br>
+                {{form.film_url(class="form-control")}}<br>
+                {% for error in form.film_url.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.photo_url.label}}<br>
+                {{form.photo_url(class="form-control")}}<br>
+                {% for error in form.photo_url.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.score.label}}<br>
+                {{form.score(class="form-control")}}<br>
+                {% for error in form.score.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            {{ recaptcha }}
+            <p>{{form.show()}}{{form.show.label}}</p>
+            <p>{{form.submit(type="submit", class="btn btn-primary")}}</p>
+            <div>
+                {{message}}
+            </div>
+        </div>
+    </form>
+{% endblock %}
