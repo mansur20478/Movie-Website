@@ -2,7 +2,7 @@
 
     {% block content %}
         <div class="infofilm">
-            <img src="static/img/mars.jpg">
+            <img src="{{film['photo_url']}}">
             <table>
                 <tr>
                     <td><h5>Название</h5></td>
@@ -25,16 +25,18 @@
                     <td><h5>6 мин</h5></td>
                 </tr>
             </table>
-            <div>
-                <h6>Фильм про легенду ньюйорка который жил в дома</h6>
-            </div>
+        </div>
+        <div>
+            <label>Про фильм</label>
+            <h6>Фильм про легенду ньюйорка который жил в дома</h6>
         </div>
         <div class="Rating">
             <h5>Оценка кинокритиков :</h5>
             <h3>9.9 из 10</h3>
         </div>
         <div class="film">
-            <video src="static/video/dance.mp4" controls width="500" height="400"></video>
+            <iframe src="https://voidboost.net/embed/342" allow="autoplay" width="100%" height="360" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" oallowfullscreen="" msallowfullscreen="">
+            </iframe>
         </div>
         <h3 class="comments">Коментарии:</h3>
         <textarea class="comments"></textarea>

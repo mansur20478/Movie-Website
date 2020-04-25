@@ -46,7 +46,7 @@ def register():
 @app.route("/film_page/<int:film_id>")
 def film_page(film_id):
     film_info = {
-        'photo_url': 'https://gidonline.io/img/7e6c04f80_200x300.jpg',
+        'photo_url': 'https://upload.wikimedia.org/wikipedia/ru/thumb/9/93/Pulp_Fiction.jpg/211px-Pulp_Fiction.jpg',
         'title': 'title',
         'year': 'year',
         'country': 'country',
