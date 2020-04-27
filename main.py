@@ -1,6 +1,7 @@
 from security.const import *
 from forms.forms import *
 from data import db_session
+from data.users import Users
 import films_resource
 import users_resource
 
@@ -9,9 +10,9 @@ import json
 from werkzeug.security import generate_password_hash
 from flask_recaptcha import ReCaptcha
 from flask_restful import Api
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from wtforms.fields.html5 import EmailField
 from wtforms.fields import StringField, PasswordField, SubmitField, IntegerField, BooleanField
 from wtforms.validators import DataRequired
@@ -36,9 +37,8 @@ api.add_resource(films_resource.FilmsResource, '/api/films/<token>/<int:films_id
 api.add_resource(users_resource.UsersListResource, '/api/users/<token>')
 api.add_resource(users_resource.UsersResource, '/api/users/<token>/<int:users_id>')
 
-
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 def send_email_to(recipients, text="Test"):
@@ -47,17 +47,34 @@ def send_email_to(recipients, text="Test"):
     return 'success'
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    session = db_session.create_session()
+    return session.query(Users).get(user_id)
+
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
     return render_template("base.html")
 
 
+# Done
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        session = db_session.create_session()
+        users = session.query(Users).filter(Users.email == form.email.data).first()
+        if users and users.check_password(form.password.data):
+            login_user(users, remember=form.remember_me.data)
+            return redirect("/")
+        return render_template('login.html',
+                               message="Неправильный логин или пароль",
+                               form=form)
     return render_template("login.html", form=form)
 
 
+# Done
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -82,6 +99,13 @@ def register():
                 send_email_to([form.email.data], "Ваш пароль от сайта: {}".format(not_hash))
             return render_template("register.html", form=form, message=message)
     return render_template("register.html", form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 
 @app.route("/film_page/<int:film_id>")
