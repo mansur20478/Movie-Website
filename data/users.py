@@ -15,7 +15,7 @@ class Users(SqlAlchemyBase, UserMixin, SerializerMixin):
     nickname = sqlalchemy.Column(sqlalchemy.String, unique=True, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    photo_url = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    photo_url = sqlalchemy.Column(sqlalchemy.String, default="https://madlads.ru/files/avatars/no_avatar.jpg")
     access_level = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     modified_date = sqlalchemy.Column(sqlalchemy.Integer, default=datetime.datetime.utcnow())
 

@@ -1,4 +1,4 @@
-from security.const import SECRET_KEY, TOKEN, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY
+from security.const import *
 from forms.forms import *
 from data import db_session
 import films_resource
@@ -8,23 +8,38 @@ import json
 from flask_recaptcha import ReCaptcha
 from flask_restful import Api
 from flask_login import LoginManager
+from flask_mail import Mail, Message
 from flask import Flask, render_template
 from wtforms.fields.html5 import EmailField
 from wtforms.fields import StringField, PasswordField, SubmitField, IntegerField, BooleanField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
-api = Api(app)
-api.add_resource(films_resource.FilmsListResource, '/api/films/<token>')
-api.add_resource(films_resource.FilmsResource, '/api/films/<token>/<int:films_id>')
-recaptcha = ReCaptcha()
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
-recaptcha.init_app(app)
+app.config['MAIL_SERVER'] = MAIL_SERVER
+app.config['MAIL_PORT'] = MAIL_PORT
+app.config['MAIL_USE_SSL'] = MAIL_USE_SSL
+app.config['MAIL_USERNAME'] = MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+
+mail = Mail(app)
+
+recaptcha = ReCaptcha(app=app)
+
+api = Api(app)
+api.add_resource(films_resource.FilmsListResource, '/api/films/<token>')
+api.add_resource(films_resource.FilmsResource, '/api/films/<token>/<int:films_id>')
 
 # login_manager = LoginManager()
 # login_manager.init_app(app)
+
+
+def send_email_to(recipients):
+    msg = Message('Hello', sender=FULL_MAIL_USERNAME, recipients=recipients)
+    mail.send(msg)
+    return 'success'
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -41,6 +56,11 @@ def login():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    if form.validate_on_submit():
+        if not recaptcha.verify():
+            message = "Подтвердите что вы не робот"
+            return render_template("register.html", form=form, message=message)
+    return render_template("register.html", form=form)
 
 
 @app.route("/film_page/<int:film_id>")

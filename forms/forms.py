@@ -11,6 +11,12 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class RegisterForm(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
 class AddFilmForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     year = IntegerField("Year", validators=[DataRequired()])
