@@ -2,9 +2,11 @@ from security.const import *
 from forms.forms import *
 from data import db_session
 import films_resource
+import users_resource
 
 import requests
 import json
+from werkzeug.security import generate_password_hash
 from flask_recaptcha import ReCaptcha
 from flask_restful import Api
 from flask_login import LoginManager
@@ -31,13 +33,16 @@ recaptcha = ReCaptcha(app=app)
 api = Api(app)
 api.add_resource(films_resource.FilmsListResource, '/api/films/<token>')
 api.add_resource(films_resource.FilmsResource, '/api/films/<token>/<int:films_id>')
+api.add_resource(users_resource.UsersListResource, '/api/users/<token>')
+api.add_resource(users_resource.UsersResource, '/api/users/<token>/<int:users_id>')
+
 
 # login_manager = LoginManager()
 # login_manager.init_app(app)
 
 
-def send_email_to(recipients):
-    msg = Message('Hello', sender=FULL_MAIL_USERNAME, recipients=recipients)
+def send_email_to(recipients, text="Test"):
+    msg = Message(text, sender=FULL_MAIL_USERNAME, recipients=recipients)
     mail.send(msg)
     return 'success'
 
@@ -59,6 +64,22 @@ def register():
     if form.validate_on_submit():
         if not recaptcha.verify():
             message = "Подтвердите что вы не робот"
+            return render_template("register.html", form=form, message=message)
+        else:
+            not_hash = gen_password()
+            password = generate_password_hash(not_hash)
+            params = {
+                'nickname': form.username.data,
+                'email': form.email.data,
+                'hashed_password': password,
+                'access_level': 1
+            }
+            info = json.loads(requests.post("http://localhost:5000/api/users/" + TOKEN, json=params).content)
+            message = ""
+            for key in info:
+                message += str(info[key]) + "\n"
+            if 'success' in info:
+                send_email_to([form.email.data], "Ваш пароль от сайта: {}".format(not_hash))
             return render_template("register.html", form=form, message=message)
     return render_template("register.html", form=form)
 

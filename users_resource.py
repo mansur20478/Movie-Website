@@ -21,10 +21,10 @@ def abort_if_token_not_match(token):
 def errors_if_wrong_data(arg, users_id=0):
     message = ""
     session = db_session.create_session()
-    users = session.query(Users).filter(Users.email == arg['email'], Users.id != users_id)
+    users = session.query(Users).filter(Users.email == arg['email'], Users.id != users_id).first()
     if users:
         message = "Данная почта занята\n"
-    users = session.query(Users).filter(Users.nickname == arg['nickname'], Users.id != users_id)
+    users = session.query(Users).filter(Users.nickname == arg['nickname'], Users.id != users_id).first()
     if users:
         message += "Данный логин занят"
     return message
