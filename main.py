@@ -149,6 +149,11 @@ def add_film():
     return render_template("add_film.html", form=form)
 
 
+@app.route('/index')
+def main():
+    return render_template("index.html")
+
+
 if __name__ == '__main__':
     db_session.global_init("db/data.sqlite")
     app.run()

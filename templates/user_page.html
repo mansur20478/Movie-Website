@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{user['name']}}</title>
+        <style>
+            body {
+                background: url(https://images.wallpaperscraft.com/image/car_lights_fog_130418_1920x1080.jpg);
+            }
+            main {
+                display: flex;
+                flex-direction: row;
+                margin-left: 200px;
+                margin-right: 200px;
+                background-color: #181818;
+                color: green;
+                border: 1px solid yellow;
+            }
+            footer {
+                display: flex;
+                flex-direction: row;
+                margin-left: 200px;
+                margin-right: 200px;
+                background-color: #181818;
+                color: green;
+                border: 1px solid yellow;
+            }
+            .userphoto {
+                margin-left: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div class="userinfo">
+                <h5>user['type']</h5>
+                <h3>user['name']</h3>
+                <h4>user['email']</h4>
+                <h4>user['fcount']</h4>
+                <h4>user['commentscount']</h4>
+            </div>
+            <div class="userphoto">
+                <img src="{{user['photo']}}" class="profphoto" width="200px" height="150px">
+            </div>
+        </main>
+        <footer>
+            <table>
+                <tr>
+                    {% for coment in user['coments'] %}
+                        <h4>{{filmname}}</h4>
+                        <h5>{{comenttext}}</h5>
+                    {% endfor %}
+                </tr>
+            </table>
+        </footer>
+    </body>
+</html>
