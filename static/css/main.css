@@ -1,0 +1,10 @@
+.filmlist {
+    display: flex;
+    flex-direction: col;
+    border: 1px solid green;
+}
+
+.shortinfo{
+    display: flex;
+    flex-direction: row;
+}

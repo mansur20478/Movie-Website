@@ -1,21 +1,5 @@
-.film {
-    color: red;
-}
-
-.infofilm table{
-    color: #707070;
-}
-
 .infofilm {
     display: flex;
     flex-direction: row;
-    color: #707070;
-}
-
-.Rating {
-    color: #707070;
-}
-
-.comments {
-    color: #707070;
+    color: white;
 }

@@ -149,7 +149,7 @@ def add_film():
     return render_template("add_film.html", form=form)
 
 
-@app.route('/index')
+@app.route('/main')
 def main():
     return render_template("index.html")
 

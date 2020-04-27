@@ -24,13 +24,3 @@
 main {
     background-color: #181818;
 }
-
-.filmtable {
-    display: flex;
-    flex-direction: column;
-}
-
-.filmface {
-    display: flex;
-    flex-direction: row;
-}
