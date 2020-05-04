@@ -1,14 +1,17 @@
 {% extends "base.html" %}
-    {% block top%}
-        <table class="filmlist">
-            <tr>
-                <td class="shortinfo">
-                    <a href="/film_page/1">
-                        <h3>Марс</h3>
-                        <img src="static/img/mars.jpg">
-                    </a>
-                    <h5>Фильм об одинком марсианине</h5>
-                </td>
-            </tr>
-        </table>
+    {% block content%}
+        <div class="mainblock">
+            <table class="filmlist">
+                <tr>
+                    <td class="shortinfo">
+                        <a href="/film_page/1">
+                            <h3>Марс</h3>
+                            <img src="static/img/mars.jpg">
+                        </a>
+                        <h5>Фильм об одинком марсианине</h5>
+                    </td>
+                </tr>
+            </table>
+            <h3>Кнопочки для листания</h3>
+        </div>
     {% endblock %}

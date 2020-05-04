@@ -10,23 +10,25 @@
         <title>{{ title }}</title>
     </head>
     <body>
-        <main role="main" class="container">
-            <div class="logo">
-                <img align="center" src="{{url_for('static', filename='img/logo.png')}}">
-            </div>
-            <div class="search_bar">
-                <form action="" method="post" onclick="">
-                    <input type="text" name="search_bar_value" value="Название фильма..." onfocus="this.value=''">
-                    <input type="submit" name="search_bar_submit" value="Поиск">
-                </form>
-                {% if current_user.is_authenticated %}
-                    <a class="navbar-brand" href="/logout">{{ current_user.nickname }}</a>
-                {% else %}
-                    <p>
-                        <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
-                        <a class="btn btn-success" href="/login">Войти</a>
-                    </p>
-                {% endif %}
+        <header role="main" class="container">
+            <div class="facer">
+                <div class="logo">
+                    <img align="center" src="{{url_for('static', filename='img/logo.png')}}">
+                </div>
+                <div class="search_bar">
+                    <form action="" method="post" onclick="">
+                        <input type="text" name="search_bar_value" value="Название фильма..." onfocus="this.value=''">
+                        <input type="submit" name="search_bar_submit" value="Поиск">
+                    </form>
+                    {% if current_user.is_authenticated %}
+                        <a class="navbar-brand" href="/logout">{{ current_user.nickname }}</a>
+                    {% else %}
+                        <p>
+                            <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+                            <a class="btn btn-success" href="/login">Войти</a>
+                        </p>
+                    {% endif %}
+                </div>
             </div>
             <div class="genre_show">
                 <table>
@@ -101,10 +103,15 @@
                     </tr>
                 </table>
             </div>
+        </header>
+        <main>
             <div class="content">
                 {% block content %}
                 {% endblock %}
             </div>
         </main>
+        <footer>
+
+        </footer>
     </body>
 </html>
