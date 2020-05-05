@@ -1,11 +1,21 @@
-.content {
-    background-color: #181818;
-    margin-right: 300px;
-    margin-left: 300px;
+.film {
+    color: red;
+}
+
+.infofilm table{
+    color: #707070;
 }
 
 .infofilm {
     display: flex;
     flex-direction: row;
-    color: white;
+    color: #707070;
+}
+
+.Rating {
+    color: #707070;
+}
+
+.comments {
+    color: #707070;
 }

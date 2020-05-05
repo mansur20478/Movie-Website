@@ -55,7 +55,7 @@ def load_user(user_id):
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template("base.html")
+    return render_template("test.html")
 
 
 # Done
