@@ -12,7 +12,7 @@ from flask_recaptcha import ReCaptcha
 from flask_restful import Api
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 from wtforms.fields.html5 import EmailField
 from wtforms.fields import StringField, PasswordField, SubmitField, IntegerField, BooleanField
 from wtforms.validators import DataRequired
@@ -55,7 +55,7 @@ def load_user(user_id):
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template("test.html")
+    return render_template("index.html")
 
 
 # Done
@@ -111,16 +111,17 @@ def logout():
 @app.route("/film_page/<int:film_id>")
 def film_page(film_id):
     film_info = {
-        'photo_url': 'https://upload.wikimedia.org/wikipedia/ru/thumb/9/93/Pulp_Fiction.jpg/211px-Pulp_Fiction.jpg',
-        'title': 'title',
-        'year': 'year',
-        'country': 'country',
-        'genre': 'genre',
-        'duration': 'duration',
-        'description': 'description',
-        'score': 10,
+        'photo_url': 'https://bipbap.ru/wp-content/uploads/2017/08/16.jpg',
+        'title': 'Криминальное Чтиво',
+        'year': '1994',
+        'country': 'США',
+        'genre': 'драма, комедия, криминал',
+        'duration': '2 часа 34 мин',
+        'description': '''Двое бандитов Винсент Вега и Джулс Винфилд ведут философские беседы в перерывах между разборками и решением проблем с должниками криминального босса Марселласа Уоллеса.
+В первой истории Винсент проводит незабываемый вечер с женой Марселласа Мией. Во второй рассказывается о боксёре Бутче Кулидже, купленном Уоллесом, чтобы сдать бой. В третьей истории Винсент и Джулс по нелепой случайности попадают в неприятности.''',
+        'score': 9.6,
         'year_war': 16,
-        'film_url': 'https://stonehenge.load.hdrezka-ag.net/tvseries/f455776e70b462a514403e5dae056fc894ca5c92/a2b31d7e35a4d1a4bb024721e145d494:2020042511/240.mp4'
+        'film_url': 'https://videocdn.so/5lKVPgECfhsG?kp_id=342&translation=2&block=JP,MX,US,AU,BR,IN,CN,CH,BE,KP,SG,CA,KR,HK'
     }
     return render_template("film_page.html", film=film_info)
 

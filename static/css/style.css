@@ -1,5 +1,6 @@
 body {
-    background: url(https://images.wallpaperscraft.ru/image/fon_lenty_radiaciya_opasnost_stena_18526_1920x1200.jpg);
+    background-color: black;
+    background-repeat: no-repeat
 }
 
 .genre_show table{
@@ -33,6 +34,16 @@ body {
     color:inherit;
 }
 
+.main {
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: #181818;
+}
+
 header {
+    background-color: #181818;
+}
+
+.content {
     background-color: #181818;
 }

@@ -1,43 +1,60 @@
 {% extends "base.html" %}
     {% block content %}
+    <div class="in_content">
         <div class="infofilm">
-            <img src="film['photo_url']">
-            <table>
-                <tr>
-                    <td class="filmsets"><h5>Название</h5></td>
-                    <td class="filmputs"><h5>{{film['title']}}</h5></td>
-                </tr>
-                <tr>
-                    <td class="filmsets"><h5>Премьера</h5></td>
-                    <td class="filmputs"><h5>{{film['year']}}</h5></td>
-                </tr>
-                <tr>
-                    <td class="filmsets"><h5>Страна</h5></td>
-                    <td class="filmputs"><h5>{{film['country']}}</h5></td>
-                </tr>
-                <tr>
-                    <td class="filmsets"><h5>Жанр</h5></td>
-                    <td class="filmputs"><h5>{{film['genre']}}</h5></td>
-                </tr>
-                <tr>
-                    <td class="filmsets"><h5>Время</h5></td>
-                    <td class="filmputs"><h5>{{film['duration']}}</h5></td>
-                </tr>
-                <tr>
-                    <td class="filmsets"><h5>Ограничение по возрасту</h5></td>
-                    <td class="filmputs"><h5>{{film['year_war']}}</h5></td>
-                </tr>
-            </table>
-            <h6>{{film['description']}}</h6>
+            <div class="film_img">
+                <img src="{{film['photo_url']}}">
+            </div>
+            <div class="film_data">
+                <table>
+                    <tr>
+                        <td class="filmsets"><h5>Название</h5></td>
+                        <td class="filmputs"><h5>{{film['title']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="filmsets"><h5>Премьера</h5></td>
+                        <td class="filmputs"><h5>{{film['year']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="filmsets"><h5>Страна</h5></td>
+                        <td class="filmputs"><h5>{{film['country']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="filmsets"><h5>Жанр</h5></td>
+                        <td class="filmputs"><h5>{{film['genre']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="filmsets"><h5>Время</h5></td>
+                        <td class="filmputs"><h5>{{film['duration']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="filmsets"><h5>Ограничение</h5></td>
+                        <td class="filmputs"><h5>{{film['year_war']}}</h5></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="description">
+                <h6>{{film['description']}}</h6>
+            </div>
         </div>
         <div class="Rating">
-            <h5>Оценка кинокритиков :</h5>
-            <h3>{{film['score']}} из 10</h3>
+            <h5>Оценка кинокритиков : {{film['score']}} из 10</h5>
+            {% for i in range(0, 10) %}
+                {% if i + 0.5 > film['score'] %}
+                    {{print(film['score'])}}
+                    <img src="{{url_for('static', filename='img/rating_off.png')}}">
+                {% elif i + 1 > film['score'] %}
+                    <img src="{{url_for('static', filename='img/rating_half.png')}}">
+                {% else %}
+                    <img src="{{url_for('static', filename='img/rating_on.png')}}">
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="film">
-            <video src="{{film['film_url']}}" controls width="500" height="400"></video>
+            <iframe src="{{film['film_url']}}" controls width="100%" height="400" allowfullscreen scrolling="no"></iframe>
         </div>
         <h3 class="comments">Коментарии:</h3>
         <textarea class="comments"></textarea>
         <h5 class="comments">Отправить</h5>
+    </div>
     {% endblock %}

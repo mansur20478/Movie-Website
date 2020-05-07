@@ -1,18 +1,57 @@
+.in_content {
+}
+
 .film {
-    color: red;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .infofilm table{
     color: #707070;
 }
 
+.infofilm td{
+    border: 4px solid #111;
+    background: #181818;
+}
+
+.infofilm img{
+    width: 200px;
+    height: 300px;
+}
+
+.infofilm h6{
+    color: white;
+    font-family: "Gabriola";
+    font-size: 25px;
+}
+
+.description {
+    border: 15px solid #181818;
+    padding: 10px 10px 10px 10px;
+}
+
+.film_data {
+    border: 15px solid #181818;
+    padding: 10px 10px 10px 10px;
+}
+
+.film_img {
+    border: 15px solid #181818;
+    padding: 10px 10px 10px 10px;
+}
+
 .infofilm {
     display: flex;
     flex-direction: row;
     color: #707070;
+    background: #505050;
+    border: 15px solid #181818;
 }
 
 .Rating {
+    border: 15px solid #181818;
+    background: #505050;
     color: #707070;
 }
 
