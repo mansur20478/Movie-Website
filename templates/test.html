@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+    {% block content %}
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/film.css')}}">
+        <table class="filmlist">
+            <tr>
+                <td>
+                <a href="/film_page/1">
+                    <h3>Марс</h3>
+                    <img src="static/img/mars.jpg">
+                </a>
+                <h5>Фильм об одинком марсианине</h5>
+                </td>
+            </tr>
+        </table>
+    {% endblock %}
