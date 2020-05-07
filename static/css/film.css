@@ -57,7 +57,9 @@
     border: 15px solid #181818;
     padding: 15px 15px 15px 15px;
     background: #505050;
-    color: #707070;
+    color: white;
+    font-family: "Comic Sans MS";
+    font-size: 25px;
 }
 
 .comments {

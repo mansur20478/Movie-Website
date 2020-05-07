@@ -6,32 +6,23 @@
         <div class="index_title">
             <h1>Кинотека</h1>
         </div>
-        <div class="in_content">
-            <div class="film_info">
-                <a href="/film_page/1">
-                    <img src="static/img/mars.jpg" width="200px" height="300px">
-                </a>
-                <h1>Фильм о марсианине</h1>
+        {% for i in range(page * 1, [page * 1 + 1, info|length]|min) %}
+            <div class="in_content">
+                <div class="film_info">
+                    <a href="{{'/film_page/' + info[i]['id']|string}}">
+                        <img src="{{info[i]['photo_url']}}" width="200px" height="300px">
+                    </a>
+                    <h1>{{info[i]['description']}}</h1>
+                </div>
             </div>
-        </div>
-        <div class="in_content">
-            <div class="film_info">
-                <a href="/film_page/1">
-                    <img src="static/img/mars.jpg" width="200px" height="300px">
-                </a>
-                <h1>Фильм о марсианине</h1>
-            </div>
-        </div>
-        <div class="in_content">
-            <div class="film_info">
-                <a href="/film_page/1">
-                    <img src="static/img/mars.jpg" width="200px" height="300px">
-                </a>
-                <h1>Фильм о марсианине</h1>
-            </div>
-        </div>
+        {% endfor %}
         <div class="index_btn">
-            <h3>Кнопочки для листания</h3>
+            {% if page != 0 %}
+                <a class="btn btn-secondary" href="{{'/page/' + (page - 1)|string}}">Назад</a>
+            {% endif %}
+            {% if page * 1 + 1 < info|length %}
+                <a class="btn btn-secondary" href="{{'/page/' + (page + 1)|string}}">Вперед</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

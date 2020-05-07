@@ -54,8 +54,12 @@ def load_user(user_id):
 
 
 @app.route("/", methods=['GET', 'POST'])
-def index():
-    return render_template("index.html")
+@app.route("/page/<int:pages>", methods=['GET', 'POST'])
+def index(pages=0):
+    info = json.loads(requests.get("http://localhost:5000/api/films/" + TOKEN).content)['films']
+    if pages * 1 > len(info):
+        return redirect("/")
+    return render_template("index.html", page=pages, info=info)
 
 
 # Done
@@ -184,6 +188,9 @@ def edit_film(film_id):
         message = ""
         for key in info:
             message += str(info[key]) + "\n"
+        print(message)
+        if message == "OK\n":
+            return redirect("/film_page" + "/" + str(film_id))
         return render_template("edit_film.html", form=form, info=info, message=message)
     return render_template("edit_film.html", form=form, info=info)
 

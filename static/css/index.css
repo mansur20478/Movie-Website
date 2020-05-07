@@ -37,11 +37,10 @@ h3 {
     border: 1px solid gray;
 }
 
-.shortinfo{
-    width: 100%;
+.index_btn {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
     display: flex;
-    flex-direction: row;
-    background-color: #191919;
-    border: 1px solid gray;
-    color: white;
+    border: 15px solid #181818;
 }
