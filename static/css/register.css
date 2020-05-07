@@ -1,0 +1,12 @@
+.register {
+    padding: 15px 15px 15px 15px;
+    border: 50px solid #181818;
+    background: #505050;
+    color: white;
+    font-family: "Comic Sans MS";
+}
+
+.submit_part {
+    display: flex;
+    justify-content: space-between;
+}

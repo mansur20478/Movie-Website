@@ -4,6 +4,7 @@
     <form action="" method="post">
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/add_film.css')}}">
         <div class="add_film">
             <p>
                 {{form.title.label}}<br>
@@ -95,7 +96,7 @@
                     </div>
                 {% endfor %}
             </p>
-            {{ recaptcha }}
+
             <p>{{form.show()}}{{form.show.label}}</p>
             <p>{{form.submit(type="submit", class="btn btn-primary")}}</p>
             <div>

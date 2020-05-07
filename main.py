@@ -7,7 +7,7 @@ import users_resource
 
 import requests
 import json
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_recaptcha import ReCaptcha
 from flask_restful import Api
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
@@ -101,6 +101,24 @@ def register():
     return render_template("register.html", form=form)
 
 
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    form = SettingsForm()
+    if form.validate_on_submit():
+        if check_password_hash(current_user.hashed_password, form.old_password.data):
+            if form.new_password.data == form.rep_password.data:
+                info = json.loads(
+                    requests.get("http://localhost:5000/api/users/" + TOKEN + "/" + str(current_user.id)).content)[
+                    'users']
+                info['hashed_password'] = generate_password_hash(form.new_password.data)
+                requests.put("http://localhost:5000/api/users/" + TOKEN + "/" + str(current_user.id), params=info)
+                return render_template("settings.html", form=form, message="OK")
+            return render_template("settings.html", form=form, message="Пароли не совпадают")
+        return render_template("settings.html", form=form, message="Неверный старый пароль")
+    return render_template("settings.html", form=form)
+
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -127,9 +145,13 @@ def film_page(film_id):
 
 
 @app.route("/add_film", methods=['GET', 'POST'])
+@login_required
 def add_film():
+    print(current_user.access_level)
+    if current_user.access_level < 3:
+        return redirect("/")
     form = AddFilmForm()
-    if form.validate_on_submit() and recaptcha.verify():
+    if form.validate_on_submit():
         params = {
             'title': form.title.data,
             'year': form.year.data,
@@ -148,11 +170,6 @@ def add_film():
             message += str(info[key]) + "\n"
         return render_template("add_film.html", form=form, message=message)
     return render_template("add_film.html", form=form)
-
-
-@app.route('/main')
-def main():
-    return render_template("index.html")
 
 
 if __name__ == '__main__':

@@ -9,7 +9,6 @@
     </head>
     <body>
         <header role="main" class="container">
-
             <!--
             <div class="genre_show">
                 <table>
@@ -88,15 +87,23 @@
         <main class="main">
             <div class="facer">
                 <div class="logo">
-                    <img align="center" src="{{url_for('static', filename='img/logo.png')}}">
+                    <a href="/">
+                        <img align="center" width="283px" height="73px" src="{{url_for('static', filename='img/logod.png')}}">
+                    </a>
                 </div>
                 <div class="search_bar">
                     <form action="" method="post" onclick="">
                         <input type="text" name="search_bar_value" value="Название фильма..." onfocus="this.value=''">
                         <input type="submit" name="search_bar_submit" value="Поиск">
                     </form>
+                </div>
+                <div class="user_info">
                     {% if current_user.is_authenticated %}
-                        <a class="navbar-brand" href="/logout">{{ current_user.nickname }}</a>
+                        <a class="btn btn-info" href="/settings">{{ current_user.nickname }}</a>
+                        <a class="btn btn-danger" href="/logout">Выйти</a>
+                        {% if current_user.access_level >= 3 %}
+                            <a class="btn btn-warning" href="/add_film">Добавить фильм</a>
+                        {% endif %}
                     {% else %}
                         <p>
                             <a class="btn btn-primary " href="/register">Зарегистрироваться</a>

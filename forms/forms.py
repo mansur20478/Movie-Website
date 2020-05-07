@@ -30,3 +30,11 @@ class AddFilmForm(FlaskForm):
     score = IntegerField("Score(KinoPoisk)", validators=[DataRequired()])
     show = BooleanField("Show")
     submit = SubmitField("Submit")
+
+
+class SettingsForm(FlaskForm):
+    old_password = PasswordField('Old password', validators=[DataRequired()])
+    new_password = PasswordField('New password', validators=[DataRequired()])
+    rep_password = PasswordField('Repeat password', validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
