@@ -8,7 +8,7 @@
         <div class="add_film">
             <p>
                 {{form.title.label}}<br>
-                {{form.title(class="form-control")}}<br>
+                {{form.title(class="form-control", value=info['title'])}}<br>
                 {% for error in form.title.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 1"}}
@@ -17,7 +17,7 @@
             </p>
             <p>
                 {{form.year.label}}<br>
-                {{form.year(class="form-control")}}<br>
+                {{form.year(class="form-control", value=info['year'])}}<br>
                 {% for error in form.year.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 2" }}
@@ -26,7 +26,7 @@
             </p>
             <p>
                 {{form.country.label}}<br>
-                {{form.country(class="form-control")}}<br>
+                {{form.country(class="form-control", value=info['country'])}}<br>
                 {% for error in form.country.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 3"}}
@@ -35,7 +35,7 @@
             </p>
             <p>
                 {{form.genre.label}}<br>
-                {{form.genre(class="form-control")}}<br>
+                {{form.genre(class="form-control", value=info['genre'])}}<br>
                 {% for error in form.genre.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 4"}}
@@ -44,7 +44,7 @@
             </p>
             <p>
                 {{form.age.label}}<br>
-                {{form.age(class="form-control")}}<br>
+                {{form.age(class="form-control", value=info['age'])}}<br>
                 {% for error in form.age.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 6"}}
@@ -53,7 +53,7 @@
             </p>
             <p>
                 {{form.description.label}}<br>
-                {{form.description(class="form-control")}}<br>
+                {{form.description(class="form-control", value=info['description'])}}<br>
                 {% for error in form.description.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 7"}}
@@ -62,7 +62,7 @@
             </p>
             <p>
                 {{form.film_url.label}}<br>
-                {{form.film_url(class="form-control")}}<br>
+                {{form.film_url(class="form-control", value=info['film_url'])}}<br>
                 {% for error in form.film_url.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 8"}}
@@ -71,7 +71,7 @@
             </p>
             <p>
                 {{form.photo_url.label}}<br>
-                {{form.photo_url(class="form-control")}}<br>
+                {{form.photo_url(class="form-control", value=info['photo_url'])}}<br>
                 {% for error in form.photo_url.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 9"}}
@@ -80,7 +80,7 @@
             </p>
             <p>
                 {{form.score.label}}<br>
-                {{form.score(class="form-control")}}<br>
+                {{form.score(class="form-control", value=info['score'])}}<br>
                 {% for error in form.score.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error + " 10"}}

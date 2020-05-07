@@ -49,8 +49,13 @@
     border: 15px solid #181818;
 }
 
+.admin {
+    border: 15px solid #181818;
+}
+
 .Rating {
     border: 15px solid #181818;
+    padding: 15px 15px 15px 15px;
     background: #505050;
     color: #707070;
 }

@@ -8,7 +8,7 @@ from security.const import TOKEN
 
 def abort_if_films_not_found(films_id):
     session = db_session.create_session()
-    films = session.query(films_id).get(films_id)
+    films = session.query(Films).get(films_id)
     if not films:
         abort(404, message=f"Films {films_id} not found")
 
@@ -79,7 +79,7 @@ class FilmsListResource(Resource):
         films = session.query(Films).all()
         return jsonify({'films': [item.to_dict(
             only=('id', 'title', 'year', 'country', 'genre',
-                  'age', 'description', 'show', 'film_url', 'photo_url', 'score')) for item in films]})
+                  'age', 'description', 'show', 'film_url', 'photo_url', 'score', 'duration')) for item in films]})
 
     def post(self, token):
         abort_if_token_not_match(token)

@@ -128,26 +128,13 @@ def logout():
 
 @app.route("/film_page/<int:film_id>")
 def film_page(film_id):
-    film_info = {
-        'photo_url': 'https://bipbap.ru/wp-content/uploads/2017/08/16.jpg',
-        'title': 'Криминальное Чтиво',
-        'year': '1994',
-        'country': 'США',
-        'genre': 'драма, комедия, криминал',
-        'duration': '2 часа 34 мин',
-        'description': '''Двое бандитов Винсент Вега и Джулс Винфилд ведут философские беседы в перерывах между разборками и решением проблем с должниками криминального босса Марселласа Уоллеса.
-В первой истории Винсент проводит незабываемый вечер с женой Марселласа Мией. Во второй рассказывается о боксёре Бутче Кулидже, купленном Уоллесом, чтобы сдать бой. В третьей истории Винсент и Джулс по нелепой случайности попадают в неприятности.''',
-        'score': 9.6,
-        'year_war': 16,
-        'film_url': 'https://videocdn.so/5lKVPgECfhsG?kp_id=342&translation=2&block=JP,MX,US,AU,BR,IN,CN,CH,BE,KP,SG,CA,KR,HK'
-    }
-    return render_template("film_page.html", film=film_info)
+    film_info = json.loads(requests.get("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id)).content)
+    return render_template("film_page.html", film=film_info['films'])
 
 
 @app.route("/add_film", methods=['GET', 'POST'])
 @login_required
 def add_film():
-    print(current_user.access_level)
     if current_user.access_level < 3:
         return redirect("/")
     form = AddFilmForm()
@@ -170,6 +157,44 @@ def add_film():
             message += str(info[key]) + "\n"
         return render_template("add_film.html", form=form, message=message)
     return render_template("add_film.html", form=form)
+
+
+@app.route("/edit_film/<int:film_id>", methods=['GET', 'POST'])
+@login_required
+def edit_film(film_id):
+    if current_user.access_level < 3:
+        return redirect("/")
+    info = json.loads(requests.get("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id)).content)['films']
+    form = EditFilmForm()
+    if form.validate_on_submit():
+        print(form.score.data)
+        params = {
+            'title': form.title.data,
+            'year': form.year.data,
+            'country': form.country.data,
+            'genre': form.genre.data,
+            'age': form.age.data,
+            'description': form.description.data,
+            'show': form.show.data,
+            'film_url': form.film_url.data,
+            'photo_url': form.photo_url.data,
+            'score': form.score.data
+        }
+        info = json.loads(requests.put("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id), json=params).content)
+        message = ""
+        for key in info:
+            message += str(info[key]) + "\n"
+        return render_template("edit_film.html", form=form, info=info, message=message)
+    return render_template("edit_film.html", form=form, info=info)
+
+
+@app.route("/delete_film/<int:film_id>")
+@login_required
+def delete_film(film_id):
+    if current_user.access_level < 3:
+        return redirect("/")
+    requests.delete("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id))
+    return redirect("/")
 
 
 if __name__ == '__main__':

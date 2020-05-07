@@ -25,12 +25,8 @@
                         <td class="filmputs"><h5>{{film['genre']}}</h5></td>
                     </tr>
                     <tr>
-                        <td class="filmsets"><h5>Время</h5></td>
-                        <td class="filmputs"><h5>{{film['duration']}}</h5></td>
-                    </tr>
-                    <tr>
                         <td class="filmsets"><h5>Ограничение</h5></td>
-                        <td class="filmputs"><h5>{{film['year_war']}}</h5></td>
+                        <td class="filmputs"><h5>{{film['age']}}</h5></td>
                     </tr>
                 </table>
             </div>
@@ -42,7 +38,6 @@
             <h5>Оценка кинокритиков : {{film['score']}} из 10</h5>
             {% for i in range(0, 10) %}
                 {% if i + 0.5 > film['score'] %}
-                    {{print(film['score'])}}
                     <img src="{{url_for('static', filename='img/rating_off.png')}}">
                 {% elif i + 1 > film['score'] %}
                     <img src="{{url_for('static', filename='img/rating_half.png')}}">
@@ -53,6 +48,14 @@
         </div>
         <div class="film">
             <iframe src="{{film['film_url']}}" controls width="100%" height="400" allowfullscreen scrolling="no"></iframe>
+        </div>
+        <div class="admin">
+            {% if current_user.is_authenticated %}
+                {% if current_user.access_level >= 3 %}
+                    <a class="btn btn-warning" href="{{'/edit_film/' + film['id']|string }}">Изменить фильм</a>
+                    <a class="btn btn-danger" href="{{'/delete_film/' + film['id']|string }}">Удалить фильм</a>
+                {% endif %}
+            {% endif %}
         </div>
         <h3 class="comments">Коментарии:</h3>
         <textarea class="comments"></textarea>

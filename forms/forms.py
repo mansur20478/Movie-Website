@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, BooleanField, SubmitField, StringField, IntegerField
+from wtforms import PasswordField, BooleanField, SubmitField, StringField, IntegerField, FloatField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
@@ -22,12 +22,25 @@ class AddFilmForm(FlaskForm):
     year = IntegerField("Year", validators=[DataRequired()])
     country = StringField("Country", validators=[DataRequired()])
     genre = StringField("Genre", validators=[DataRequired()])
-    duration = StringField("Duration", validators=[DataRequired()])
     age = StringField("Age restrictions", validators=[DataRequired()])
     description = StringField("Description", validators=[DataRequired()])
     film_url = StringField("Film url", validators=[DataRequired()])
     photo_url = StringField("Photo url", validators=[DataRequired()])
-    score = IntegerField("Score(KinoPoisk)", validators=[DataRequired()])
+    score = FloatField("Score(KinoPoisk)", validators=[DataRequired()])
+    show = BooleanField("Show")
+    submit = SubmitField("Submit")
+
+
+class EditFilmForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    year = IntegerField("Year", validators=[DataRequired()])
+    country = StringField("Country", validators=[DataRequired()])
+    genre = StringField("Genre", validators=[DataRequired()])
+    age = StringField("Age restrictions", validators=[DataRequired()])
+    description = StringField("Description", validators=[DataRequired()])
+    film_url = StringField("Film url", validators=[DataRequired()])
+    photo_url = StringField("Photo url", validators=[DataRequired()])
+    score = FloatField("Score(KinoPoisk)", validators=[DataRequired()])
     show = BooleanField("Show")
     submit = SubmitField("Submit")
 
