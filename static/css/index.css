@@ -1,0 +1,47 @@
+h3 {
+    color: green;
+}
+
+.mainblock {
+}
+
+.index_title {
+    border: 15px solid #181818;
+    background: #505050;
+    color: white;
+    padding: 4px 4px 4px 4px;
+    font-family: "Comic Sans MS";
+    font-size: 25px;
+}
+
+.index_title h1{
+    text-align: center;
+}
+
+.film_info {
+    display: flex;
+    padding: 15px 15px 15px 15px;
+    background: #505050;
+    border: 15px solid #181818;
+}
+
+.film_info h1{
+    padding: 10px 10px 10px 10px;
+    color: white;
+    font-family: "Gabriola";
+    font-size: 25px;
+}
+
+.filmlist {
+    width: 100%;
+    border: 1px solid gray;
+}
+
+.shortinfo{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: #191919;
+    border: 1px solid gray;
+    color: white;
+}

@@ -1,27 +1,37 @@
 {% extends "base.html" %}
-    {% block content%}
-        <div class="mainblock">
-            <h1>
-                Наша кинобаза:
-            </h1>
-            <table class="filmlist">
-                <tr>
-                    <td class="shortinfo">
-                        <a href="/film_page/1">
-                            <h3>Марс</h3>
-                            <img src="static/img/mars.jpg" width="100px" height="150px">
-                        </a>
-                        <h5>Фильм об одинком марсианине</h5>
-                    </td>
-                    <td class="shortinfo">
-                        <a href="/film_page/1">
-                            <h3>Марс</h3>
-                            <img src="static/img/mars.jpg" width="100px" height="150px">
-                        </a>
-                        <h5>Фильм об одинком марсианине</h5>
-                    </td>
-                </tr>
-            </table>
+
+{% block content%}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
+    <div class="mainblock">
+        <div class="index_title">
+            <h1>Кинотека</h1>
+        </div>
+        <div class="in_content">
+            <div class="film_info">
+                <a href="/film_page/1">
+                    <img src="static/img/mars.jpg" width="200px" height="300px">
+                </a>
+                <h1>Фильм о марсианине</h1>
+            </div>
+        </div>
+        <div class="in_content">
+            <div class="film_info">
+                <a href="/film_page/1">
+                    <img src="static/img/mars.jpg" width="200px" height="300px">
+                </a>
+                <h1>Фильм о марсианине</h1>
+            </div>
+        </div>
+        <div class="in_content">
+            <div class="film_info">
+                <a href="/film_page/1">
+                    <img src="static/img/mars.jpg" width="200px" height="300px">
+                </a>
+                <h1>Фильм о марсианине</h1>
+            </div>
+        </div>
+        <div class="index_btn">
             <h3>Кнопочки для листания</h3>
         </div>
-    {% endblock %}
+    </div>
+{% endblock %}
