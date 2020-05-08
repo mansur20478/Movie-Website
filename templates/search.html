@@ -3,10 +3,16 @@
 {% block content%}
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
     <div class="mainblock">
-        <div class="index_title">
-            <h1>Кинотека</h1>
-        </div>
-        {% for i in range(page * 4, [page * 4 + 4, info|length]|min) %}
+        {% if info|length != 0 %}
+            <div class="index_title">
+                <h1>По запросу: "{{text}}"</h1>
+            </div>
+        {% else %}
+            <div class="index_title">
+                <h1>По запросу: "{{text}}" ничего не найдено</h1>
+            </div>
+        {% endif %}
+        {% for i in range(0, info|length) %}
             <div class="in_content">
                 <div class="film_info">
                     <a href="{{'/film_page/' + info[i]['id']|string}}">
@@ -16,13 +22,5 @@
                 </div>
             </div>
         {% endfor %}
-        <div class="index_btn">
-            {% if page != 0 %}
-                <a class="btn btn-secondary" href="{{'/page/' + (page - 1)|string}}">Назад</a>
-            {% endif %}
-            {% if page * 4 + 4 < info|length %}
-                <a class="btn btn-secondary" href="{{'/page/' + (page + 1)|string}}">Вперед</a>
-            {% endif %}
-        </div>
     </div>
 {% endblock %}

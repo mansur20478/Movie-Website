@@ -1,3 +1,9 @@
+try:
+    import os
+    os.mkdir('indexdir')
+except BaseException as exc:
+    pass
+
 from security.const import *
 from forms.forms import *
 from data import db_session
@@ -7,17 +13,24 @@ import users_resource
 
 import requests
 import json
+from elasticsearch import Elasticsearch
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_recaptcha import ReCaptcha
 from flask_restful import Api
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
+from flask_ngrok import run_with_ngrok
 from wtforms.fields.html5 import EmailField
 from wtforms.fields import StringField, PasswordField, SubmitField, IntegerField, BooleanField
 from wtforms.validators import DataRequired
 
+from whoosh.index import create_in
+from whoosh.fields import *
+from whoosh.qparser import QueryParser
+
 app = Flask(__name__)
+# run_with_ngrok(app)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
@@ -56,8 +69,8 @@ def load_user(user_id):
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/page/<int:pages>", methods=['GET', 'POST'])
 def index(pages=0):
-    info = json.loads(requests.get("http://localhost:5000/api/films/" + TOKEN).content)['films']
-    if pages * 1 > len(info):
+    info = json.loads(requests.get(DOMEN + "/api/films/" + TOKEN).content)['films']
+    if pages * 4 > len(info):
         return redirect("/")
     return render_template("index.html", page=pages, info=info)
 
@@ -95,7 +108,7 @@ def register():
                 'hashed_password': password,
                 'access_level': 1
             }
-            info = json.loads(requests.post("http://localhost:5000/api/users/" + TOKEN, json=params).content)
+            info = json.loads(requests.post(DOMEN + "/api/users/" + TOKEN, json=params).content)
             message = ""
             for key in info:
                 message += str(info[key]) + "\n"
@@ -113,10 +126,10 @@ def settings():
         if check_password_hash(current_user.hashed_password, form.old_password.data):
             if form.new_password.data == form.rep_password.data:
                 info = json.loads(
-                    requests.get("http://localhost:5000/api/users/" + TOKEN + "/" + str(current_user.id)).content)[
+                    requests.get(DOMEN + "/api/users/" + TOKEN + "/" + str(current_user.id)).content)[
                     'users']
                 info['hashed_password'] = generate_password_hash(form.new_password.data)
-                requests.put("http://localhost:5000/api/users/" + TOKEN + "/" + str(current_user.id), params=info)
+                requests.put(DOMEN + "/api/users/" + TOKEN + "/" + str(current_user.id), params=info)
                 return render_template("settings.html", form=form, message="OK")
             return render_template("settings.html", form=form, message="Пароли не совпадают")
         return render_template("settings.html", form=form, message="Неверный старый пароль")
@@ -132,7 +145,7 @@ def logout():
 
 @app.route("/film_page/<int:film_id>")
 def film_page(film_id):
-    film_info = json.loads(requests.get("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id)).content)
+    film_info = json.loads(requests.get(DOMEN + "/api/films/" + TOKEN + "/" + str(film_id)).content)
     return render_template("film_page.html", film=film_info['films'])
 
 
@@ -155,7 +168,7 @@ def add_film():
             'photo_url': form.photo_url.data,
             'score': form.score.data
         }
-        info = json.loads(requests.post("http://localhost:5000/api/films/" + TOKEN, json=params).content)
+        info = json.loads(requests.post(DOMEN + "/api/films/" + TOKEN, json=params).content)
         message = ""
         for key in info:
             message += str(info[key]) + "\n"
@@ -168,7 +181,7 @@ def add_film():
 def edit_film(film_id):
     if current_user.access_level < 3:
         return redirect("/")
-    info = json.loads(requests.get("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id)).content)['films']
+    info = json.loads(requests.get(DOMEN + "/api/films/" + TOKEN + "/" + str(film_id)).content)['films']
     form = EditFilmForm()
     if form.validate_on_submit():
         print(form.score.data)
@@ -184,7 +197,7 @@ def edit_film(film_id):
             'photo_url': form.photo_url.data,
             'score': form.score.data
         }
-        info = json.loads(requests.put("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id), json=params).content)
+        info = json.loads(requests.put(DOMEN + "/api/films/" + TOKEN + "/" + str(film_id), json=params).content)
         message = ""
         for key in info:
             message += str(info[key]) + "\n"
@@ -200,8 +213,30 @@ def edit_film(film_id):
 def delete_film(film_id):
     if current_user.access_level < 3:
         return redirect("/")
-    requests.delete("http://localhost:5000/api/films/" + TOKEN + "/" + str(film_id))
+    requests.delete(DOMEN + "/api/films/" + TOKEN + "/" + str(film_id))
     return redirect("/")
+
+
+@app.route("/search", methods=['POST', 'GET'])
+def search_web():
+    text = request.args.get('search_bar_value')
+    info = json.loads(requests.get(DOMEN + "/api/films/" + TOKEN).content)['films']
+
+    schema = Schema(title=TEXT(stored=True), path=ID(stored=True), content=TEXT)
+    ix = create_in("indexdir", schema)
+    writer = ix.writer()
+    for i in range(len(info)):
+        film_info = info[i]['description'] + " " + info[i]['genre'] +\
+                    " " + info[i]['age'] + " " + info[i]['country'] + " " + info[i]['title']
+        writer.add_document(title=u"{}".format(info[i]['id']), path=u"/a", content = u"{}".format(film_info))
+    writer.commit()
+    data = []
+    with ix.searcher() as searcher:
+        query = QueryParser("content", ix.schema).parse(text.replace("+", " "))
+        results = searcher.search(query)
+        for i in range(len(results)):
+            data.append(info[int(results[i]['title']) - 1])
+    return render_template("search.html", info=data, text=text.replace("+", " "))
 
 
 if __name__ == '__main__':
