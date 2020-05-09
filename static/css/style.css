@@ -1,6 +1,7 @@
 body {
     background-color: black;
-    background-repeat: no-repeat
+    min-width: 1920px;
+    max-width: 1920px;
 }
 
 .genre_show table{

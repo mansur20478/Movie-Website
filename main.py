@@ -10,10 +10,10 @@ from data import db_session
 from data.users import Users
 import films_resource
 import users_resource
+import comments_resource
 
 import requests
 import json
-from elasticsearch import Elasticsearch
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_recaptcha import ReCaptcha
 from flask_restful import Api
@@ -30,7 +30,7 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
 app = Flask(__name__)
-# run_with_ngrok(app)
+run_with_ngrok(app)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
@@ -49,6 +49,8 @@ api.add_resource(films_resource.FilmsListResource, '/api/films/<token>')
 api.add_resource(films_resource.FilmsResource, '/api/films/<token>/<int:films_id>')
 api.add_resource(users_resource.UsersListResource, '/api/users/<token>')
 api.add_resource(users_resource.UsersResource, '/api/users/<token>/<int:users_id>')
+api.add_resource(comments_resource.CommentsListResource, '/api/comments/<token>')
+api.add_resource(comments_resource.CommentsResource, '/api/comments/<token>/<int:comment_id>')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -118,6 +120,26 @@ def register():
     return render_template("register.html", form=form)
 
 
+@app.route("/forgot_password", methods=['GET', 'POST'])
+def forgot_password():
+    form = ForgotPasswordForm()
+    if form.validate_on_submit():
+        if not recaptcha.verify():
+            return render_template("forgot_password.html", form=form, message="Подтвердите что вы не робот")
+        else:
+            info = json.loads(requests.get(DOMEN + "/api/users/" + TOKEN).content)['users']
+            for i in range(len(info)):
+                if info[i]['email'] == form.email.data:
+                    password = gen_password()
+                    info[i]['hashed_password'] = generate_password_hash(password)
+                    send_email_to([info[i]['email']], "Ваш пароль от сайта: {}".format(password))
+                    requests.put(DOMEN + "/api/users/" + TOKEN + "/" + str(info[i]['id']),
+                                 json=info[i])
+                    return render_template("forgot_password.html", form=form, message="ОК")
+            return render_template("forgot_password.html", form=form, message="Не найдена почта")
+    return render_template("forgot_password.html", form=form)
+
+
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
@@ -143,10 +165,27 @@ def logout():
     return redirect("/")
 
 
-@app.route("/film_page/<int:film_id>")
+@app.route("/film_page/<int:film_id>", methods=['POST', 'GET'])
 def film_page(film_id):
+    form = CommentForm()
+    info_user = json.loads(requests.get(DOMEN + "/api/users/" + TOKEN).content)['users']
+    info_comment = json.loads(requests.get(DOMEN + "/api/comments/" + TOKEN).content)['comments']
+    temps = {}
+    for i in range(len(info_user)):
+        temps[info_user[i]['id']] = info_user[i]
+    comments = []
+    for i in range(len(info_comment)):
+        if info_comment[i]['film_id'] == film_id and info_comment[i]['user_id'] in temps:
+            comments.append({'username': temps[info_comment[i]['user_id']]['nickname'],
+                             'text': info_comment[i]['text'],
+                             'photo_url': temps[info_comment[i]['user_id']]['photo_url'],
+                             'id': info_comment[i]['id']})
     film_info = json.loads(requests.get(DOMEN + "/api/films/" + TOKEN + "/" + str(film_id)).content)
-    return render_template("film_page.html", film=film_info['films'])
+    if form.validate_on_submit():
+        info = requests.post(DOMEN + "/api/comments/" + TOKEN,
+                             json={'film_id': film_id, 'user_id': current_user.id, 'text': form.text.data}).content
+        return redirect("/film_page" + "/" + str(film_id))
+    return render_template("film_page.html", film=film_info['films'], form=form, comment=comments)
 
 
 @app.route("/add_film", methods=['GET', 'POST'])
@@ -208,6 +247,17 @@ def edit_film(film_id):
     return render_template("edit_film.html", form=form, info=info)
 
 
+@app.route("/delete_comment/<int:comment_id>")
+@login_required
+def delete_comment(comment_id):
+    info = json.loads(requests.get(DOMEN + "/api/comments/" + TOKEN).content)['comments']
+    for i in range(len(info)):
+        if info[i]['id'] == comment_id:
+            if current_user.access_level >= 3 or current_user.id == info[i]['user_id']:
+                requests.delete(DOMEN + "/api/comments/" + TOKEN + "/" + str(info[i]['user_id']))
+            return redirect("/film_page/{}".format(info[i]['film_id']))
+
+
 @app.route("/delete_film/<int:film_id>")
 @login_required
 def delete_film(film_id):
@@ -228,14 +278,14 @@ def search_web():
     for i in range(len(info)):
         film_info = info[i]['description'] + " " + info[i]['genre'] +\
                     " " + info[i]['age'] + " " + info[i]['country'] + " " + info[i]['title']
-        writer.add_document(title=u"{}".format(info[i]['id']), path=u"/a", content = u"{}".format(film_info))
+        writer.add_document(title=u"{}".format(i), path=u"/a", content = u"{}".format(film_info))
     writer.commit()
     data = []
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(text.replace("+", " "))
         results = searcher.search(query)
         for i in range(len(results)):
-            data.append(info[int(results[i]['title']) - 1])
+            data.append(info[int(results[i]['title'])])
     return render_template("search.html", info=data, text=text.replace("+", " "))
 
 

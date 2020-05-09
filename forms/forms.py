@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, BooleanField, SubmitField, StringField, IntegerField, FloatField
+from wtforms import PasswordField, BooleanField, SubmitField, StringField, IntegerField, FloatField, TextAreaField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
@@ -51,3 +51,12 @@ class SettingsForm(FlaskForm):
     rep_password = PasswordField('Repeat password', validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+
+class CommentForm(FlaskForm):
+    text = TextAreaField('Comments:', validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+
+class ForgotPasswordForm(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired()])
+    submit = SubmitField('Submit')

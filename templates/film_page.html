@@ -57,8 +57,38 @@
                 {% endif %}
             {% endif %}
         </div>
-        <h3 class="comments">Коментарии:</h3>
-        <textarea class="comments"></textarea>
-        <h5 class="comments">Отправить</h5>
+        {% if current_user.is_authenticated %}
+            <div class="add_comment">
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    {{ form.csrf_token }}
+                    <div class="get_part">
+                        <h1>{{ form.text.label }}</h1>
+                        {{ form.text(class="form-control") }}
+                    </div>
+                    <div class="submit_comment">
+                        {{ form.submit(class="btn btn-secondary", type="submit") }}
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+        {% for i in range(comment|length) %}
+            <div class="comment">
+                <div class="comment_user">
+                    <h6>{{comment[i]['username']}}</h6>
+                    <img src="{{comment[i]['photo_url']}}" width="150px" height="150px">
+                </div>
+                <div class="comment_part">
+                    <h6>{{comment[i]['text']}}</h6>
+                </div>
+            </div>
+            <div class="some_btn">
+                {% if current_user.is_authenticated %}
+                    {% if current_user.access_level >= 3 or current_user.id == comment[i]['user_id'] %}
+                        <a class="btn btn-danger" href="{{'/delete_comment/' + comment[i]['id']|string}}">Удалить</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
     {% endblock %}

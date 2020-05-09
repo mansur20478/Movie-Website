@@ -53,6 +53,18 @@
     border: 15px solid #181818;
 }
 
+.add_comment {
+    border: 15px solid #181818;
+    background: #505050;
+    padding: 15px 15px 15px 15px;
+}
+
+.get_part h1{
+    color: white;
+    font-family: "Comic Sans MS";
+    font-size: 25px;
+}
+
 .Rating {
     border: 15px solid #181818;
     padding: 15px 15px 15px 15px;
@@ -62,6 +74,29 @@
     font-size: 25px;
 }
 
-.comments {
-    color: #707070;
+.comment {
+    padding: 15px 15px 15px 15px;
+    display: flex;
+}
+
+.comment_user {
+    padding: 4px 4px 4px 4px;
+    background: #505050;
+    border: 15px solid #181818;
+}
+
+.comment_user h6{
+    color: white;
+    font-family: "Comic Sans MS";
+}
+
+.some_btn {
+    border-left: 30px solid #181818;
+}
+
+.comment_part {
+    border: 15px solid #181818;
+    padding: 15px 15px 15px 15px;
+    color: white;
+    font-family: "Comic Sans MS";
 }
