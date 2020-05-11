@@ -38,13 +38,7 @@ pluggy==0.13.1
 py==1.8.1
 pycparser==2.20
 pyflakes==2.2.0
-pygame==1.9.6
-pymorphy2==0.8
-pymorphy2-dicts==2.4.393442.3710985
 pyparsing==2.4.7
-PyQt5==5.14.2
-PyQt5-sip==12.7.2
-pyqt5-tools==5.13.2.1.6rc1
 pytest==5.4.1
 python-dateutil==2.8.1
 python-dotenv==0.12.0
