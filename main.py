@@ -30,7 +30,7 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
 app = Flask(__name__)
-run_with_ngrok(app)
+# run_with_ngrok(app)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
@@ -82,6 +82,8 @@ def index(pages=0):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        if not recaptcha.verify():
+            return render_template("login.html", form=form, message="Подтвердите что вы не робот")
         session = db_session.create_session()
         users = session.query(Users).filter(Users.email == form.email.data).first()
         if users and users.check_password(form.password.data):

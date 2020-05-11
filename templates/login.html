@@ -28,7 +28,7 @@
             <p>{{form.remember_me()}}{{form.remember_me.label}}
                 <a class="btn btn-secondary" href="/forgot_password">Забыли пароль?</a>
             </p>
-            <p>{{form.submit(type="submit", class="btn btn-primary")}}</p>
+            <p>{{recaptcha}}{{form.submit(type="submit", class="btn btn-primary")}}</p>
             <div>
                 {{message}}
             </div>
