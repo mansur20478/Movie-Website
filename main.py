@@ -30,7 +30,7 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
 app = Flask(__name__)
-# run_with_ngrok(app)
+run_with_ngrok(app)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
@@ -54,6 +54,11 @@ api.add_resource(comments_resource.CommentsResource, '/api/comments/<token>/<int
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 def send_email_to(recipients, text="Test"):
