@@ -19,7 +19,7 @@ from flask_recaptcha import ReCaptcha
 from flask_restful import Api
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from flask_mail import Mail, Message
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, make_response, jsonify
 from flask_ngrok import run_with_ngrok
 from wtforms.fields.html5 import EmailField
 from wtforms.fields import StringField, PasswordField, SubmitField, IntegerField, BooleanField
@@ -30,7 +30,7 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
 app = Flask(__name__)
-run_with_ngrok(app)
+# run_with_ngrok(app) Убрать при запуске
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
