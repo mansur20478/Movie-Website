@@ -30,7 +30,7 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
 app = Flask(__name__)
-# run_with_ngrok(app) Добавить при запуске
+run_with_ngrok(app)
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
